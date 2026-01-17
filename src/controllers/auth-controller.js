@@ -1,16 +1,16 @@
 const db = require("../models");
 const catchAsync = require("../utils/catch-async");
 const AppError = require("../utils/app-error");
-const { generateOTP } = require("../utils/otp");
+const { generateOTP, sendOTPToEmail } = require("../utils/otp");
 
 const loginWithOtp = catchAsync(async (req, res, next) => {
-  const { mobile, otp } = req.body;
+  const { email, otp } = req.body;
 
-  if (!mobile) {
-    return next(new AppError("Mobile number is required", 400));
+  if (!email) {
+    return next(new AppError("Email is required", 400));
   }
 
-  let tempUser = await db.TempUser.findOne({ where: { mobile } });
+  let tempUser = await db.TempUser.findOne({ where: { email } });
 
     //SEND OTP
     if (!otp) {
@@ -24,15 +24,17 @@ const loginWithOtp = catchAsync(async (req, res, next) => {
       await tempUser.save();
     } else {
       tempUser = await db.TempUser.create({
-        mobile,
+        email,
         otp: newOtp,
         otpExpiresAt,
       });
     }
 
+    await sendOTPToEmail(email, newOtp);
+
     return res.status(200).json({
       status: "success",
-      message: "OTP sent successfully",
+      message: "OTP sent successfully to your email",
     });
   }
 
@@ -57,7 +59,7 @@ const loginWithOtp = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     message: "OTP verified successfully.",
-    mobile: tempUser.mobile,
+    mobile: tempUser.email,
   });
 });
 
