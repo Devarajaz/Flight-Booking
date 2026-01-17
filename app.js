@@ -1,14 +1,15 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const helmet = require("helmet");
 
 const { connectDB } = require("./src/config/db");
-const db = require('./src/models');
+const db = require("./src/models");
 const errorHandler = require("./src/middleware/error-middleware");
-const logger = require("./src/middleware/logger");
-const catchAsync = require("./src/utils/catch-async");
+const logger = require("./src/utils/logger");
 const AppError = require("./src/utils/app-error");
+
+const authRouter = require("./src/routes/auth-router");
 
 const app = express();
 
@@ -16,27 +17,8 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 
-// Request logger
-app.use((req, res, next) => {
-  logger.info(`${req.method} ${req.url}`);
-  next();
-});
-
-// -------- HEALTH ROUTE --------
-app.get(
-  "/",
-  catchAsync(async (req, res) => {
-    res.send("Flight Booking API is running 🚀");
-  })
-);
-
-// -------- TEST ERROR ROUTE (to check logging) --------
-app.get(
-  "/error",
-  catchAsync(async (req, res, next) => {
-    throw new AppError("This is a test error", 500);
-  })
-);
+//Routes
+app.use("/api/auth", authRouter);
 
 // -------- 404 ROUTE --------
 app.all("/",(req, res, next) => {
@@ -50,8 +32,22 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
-  await connectDB();
-  await db.sequelize.sync({ alter: true });
+  try {
+    await connectDB(); // Connect to PostgreSQL
+
+    // Sync models (use alter: true only in dev)
+    const db = require("./src/models");
+    await db.sequelize.sync({ alter: true });
+
+    app.listen(PORT, () => {
+      logger.info(`Server running on port ${PORT}`);
+      console.log(`🚀 Server started on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    logger.error("Server startup failed", { error: error.message });
+    console.error("❌ Server failed to start:", error);
+    process.exit(1);
+  }
 };
 
 startServer();
