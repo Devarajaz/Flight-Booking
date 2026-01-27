@@ -21,9 +21,9 @@ module.exports = (sequelize, DataTypes) => {
       // Additional fields for flight booking can be added here
     },
     {
-      tableName: "Users",
-      timestamps: true,
-    }
+    underscored: true,   // ✅
+    timestamps: true,
+  }
   );
 
   return User;

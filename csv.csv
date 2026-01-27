@@ -1,0 +1,21 @@
+id,airline,model,registration_number,manufacturer,capacity,economy_seats,business_seats,first_class_seats
+1,IndiGo,Airbus A320,VT-IGR,Airbus,180,150,30,0
+2,IndiGo,Airbus A321,VT-IGS,Airbus,220,180,40,0
+3,Air India,Boeing 737,VT-AIY,Boeing,160,130,30,0
+4,Air India,Boeing 787,VT-AIZ,Boeing,260,200,40,20
+5,Vistara,Airbus A320,VT-UKA,Airbus,180,150,30,0
+6,Vistara,Boeing 787,VT-UKB,Boeing,280,210,50,20
+7,SpiceJet,Boeing 737,VT-SGA,Boeing,160,140,20,0
+8,SpiceJet,Boeing 737,VT-SGB,Boeing,160,140,20,0
+9,Akasa Air,Boeing 737 MAX,VT-AKA,Boeing,180,150,30,0
+10,Akasa Air,Boeing 737 MAX,VT-AKB,Boeing,180,150,30,0
+11,Air India Express,Boeing 737,VT-AXA,Boeing,180,160,20,0
+12,Air India Express,Boeing 737,VT-AXB,Boeing,180,160,20,0
+13,IndiGo,Airbus A320,VT-IGT,Airbus,180,150,30,0
+14,IndiGo,Airbus A321,VT-IGU,Airbus,220,180,40,0
+15,Air India,Airbus A320,VT-AIC,Airbus,180,150,30,0
+16,Air India,Airbus A321,VT-AID,Airbus,220,180,40,0
+17,Vistara,Airbus A321,VT-UKC,Airbus,220,180,40,0
+18,Vistara,Airbus A320,VT-UKD,Airbus,180,150,30,0
+19,SpiceJet,Boeing 737,VT-SGC,Boeing,160,140,20,0
+20,Akasa Air,Boeing 737 MAX,VT-AKC,Boeing,180,150,30,0
