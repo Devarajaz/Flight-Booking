@@ -36,7 +36,8 @@ db.sequelize = sequelize;
 // Import models
 db.TempUser = require("./temp-user")(sequelize, DataTypes); // Temporary user for OTP
 db.User = require("./user")(sequelize, DataTypes); // Permanent user (after booking)
+db.Airplane = require("./airplane")(sequelize, DataTypes);
 
 // Export
+db.connectDB = connectDB;
 module.exports = db;
-module.exports.connectDB = connectDB;

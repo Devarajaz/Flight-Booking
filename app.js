@@ -7,7 +7,8 @@ const db = require("./src/models");
 const errorHandler = require("./src/middleware/error-middleware");
 const logger = require("./src/utils/logger");
 const AppError = require("./src/utils/app-error");
-const authRouter = require("./src/routes/auth-router");
+const authRouter = require("./src/routes/auth-routes");
+const airplaneRoutes = require("./src/routes/airplane-routes")
 const app = express();
 
 app.use(express.json());
@@ -16,6 +17,7 @@ app.use(helmet());
 
 //Routes
 app.use("/api/auth", authRouter);
+app.use("/api/airplanes", airplaneRoutes);
 
 // -------- 404 ROUTE --------
 app.all("/",(req, res, next) => {
