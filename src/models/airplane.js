@@ -2,36 +2,34 @@ module.exports = (sequelize, DataTypes) => {
   const Airplane = sequelize.define(
     "Airplane",
     {
-      airline: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
       },
-      model: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+
       registration_number: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
+
+      model: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+
       manufacturer: {
         type: DataTypes.STRING,
         allowNull: false,
       },
+
       capacity: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      economy_seats: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      business_seats: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      first_class_seats: {
+
+      airline_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

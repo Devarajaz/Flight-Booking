@@ -36,7 +36,7 @@ const startServer = async () => {
 
     // Sync models (use alter: true only in dev)
     const db = require("./src/models");
-    await db.sequelize.sync({ alter: true });
+    await db.sequelize.sync({ alter: false, force:false });
 
     app.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`);
