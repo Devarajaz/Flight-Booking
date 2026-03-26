@@ -2,29 +2,37 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate: {
-          isEmail: true,
-        },
       },
-      name: {
+      password: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
-      mobile: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      // Additional fields for flight booking can be added here
     },
     {
-    underscored: true,   // ✅
-    timestamps: true,
-  }
+      tableName: "users",
+      timestamps: true,
+    }
   );
+
+  // Associations
+  User.associate = (models) => {
+    User.hasMany(models.Airplane, {
+      foreignKey: "userId",
+    });
+  };
 
   return User;
 };

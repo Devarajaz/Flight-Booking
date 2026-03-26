@@ -25,7 +25,6 @@ const connectDB = async () => {
   }
 };
 
-
 // Models container
 const db = {};
 
@@ -34,9 +33,20 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 // Import models
-db.TempUser = require("./temp-user")(sequelize, DataTypes); // Temporary user for OTP
-db.User = require("./user")(sequelize, DataTypes); // Permanent user (after booking)
+db.TempUser = require("./temp-user")(sequelize, DataTypes);
+db.User = require("./user")(sequelize, DataTypes);
+db.Airline = require("./airline")(sequelize, DataTypes);
 db.Airplane = require("./airplane")(sequelize, DataTypes);
+db.Airport = require("./airport")(sequelize, DataTypes);
+db.Flight = require("./flight")(sequelize, DataTypes);
+console.log("Flight model:", db.Flight);
+
+// ✅ CALL ASSOCIATIONS HERE (VERY IMPORTANT)
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
 
 // Export
 db.connectDB = connectDB;
