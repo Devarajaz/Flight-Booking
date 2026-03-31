@@ -10,7 +10,7 @@ const AppError = require("./src/utils/app-error");
 const authRouter = require("./src/routes/auth-routes");
 const airplaneRoutes = require("./src/routes/airplane-routes");
 const flightRoutes = require("./src/routes/flight-routes");
-
+const bookingRoutes = require("./src/routes/booking-routes");
 const app = express();
 
 app.use(express.json());
@@ -21,6 +21,7 @@ app.use(helmet());
 app.use("/api/auth", authRouter);
 app.use("/api/airplanes", airplaneRoutes);
 app.use("/api/flights", flightRoutes);
+app.use("/api", bookingRoutes);
 
 // -------- 404 ROUTE --------
 app.use((req, res, next) => {

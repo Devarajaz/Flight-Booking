@@ -1,3 +1,5 @@
+const { underscoredIf } = require("sequelize/lib/utils");
+
 module.exports = (sequelize, DataTypes) => {
   const Airline = sequelize.define(
     "Airline",
@@ -8,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "airlines",
+      underscored: true,
       timestamps: true,
     }
   );
 
   Airline.associate = (models) => {
-    console.log("Flight inside Airline:", models.Flights);
     Airline.hasMany(models.Flight, {
       foreignKey: "airline_id",
     });

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Flight = sequelize.define(
-    "Flight",
+    "Flights",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       ticket_cost: DataTypes.FLOAT,
     },
     {
-      tableName: "flight",
+      tableName: "flights",
+      underscored: true,
       timestamps: true,
     }
   );

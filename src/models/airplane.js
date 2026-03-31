@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: "airplanes",
+      underscored: true,
       timestamps: true,
     }
   );
