@@ -2,7 +2,6 @@ const { Flight, Airline, Airplane, Airport, Sequelize } = require("../models");
 const { Op } = Sequelize;
 
 async function searchFlightsService(data) {
-  console.log("Incomeing:", data);
 
   const {
     from,
@@ -106,9 +105,6 @@ async function searchFlightsService(data) {
     limit: Number(limit),
     offset: Number(offset),
   });
-  console.log("FROM:", from);
-  console.log("TO:", to);
-  console.log("Flights after query:", flights.rows.length);
 
   return {
     total: flights.count,
