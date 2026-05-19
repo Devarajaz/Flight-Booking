@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
       id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       model: DataTypes.STRING,
       capacity: DataTypes.INTEGER,
-      userId: DataTypes.INTEGER,
     },
     {
       tableName: "airplanes",
@@ -13,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
     }
   );
-
-  Airplane.associate = (models) => {
-    Airplane.belongsTo(models.User, { foreignKey: "userId" });
-  };
 
   return Airplane;
 };

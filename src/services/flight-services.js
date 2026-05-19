@@ -1,7 +1,9 @@
 const { Flight, Airline, Airplane, Airport, Sequelize } = require("../models");
 const { Op } = Sequelize;
 
-async function searchFlightsService(query) {
+async function searchFlightsService(data) {
+  console.log("Incomeing:", data);
+
   const {
     from,
     to,
@@ -12,7 +14,7 @@ async function searchFlightsService(query) {
     sort,
     page = 1,
     limit = 10,
-  } = query;
+  } = data;
 
   // Pagination
   const offset = (page - 1) * limit;
@@ -34,12 +36,14 @@ async function searchFlightsService(query) {
 
   // Date filter
   if (date) {
-    const start = new Date(`${date}T00:00:00`);
-    const end = new Date(`${date}T23:59:59`);
-
+    const start = new Date(date);
+    const end = new Date(date);
+    end.setDate(end.getDate() + 1);
+    
     whereClause.departure_time = {
-      [Op.between]: [start, end],
-    };
+    [Op.gte]: start,
+    [Op.lt]: end,
+   };
   }
 
   // Sorting
@@ -48,44 +52,67 @@ async function searchFlightsService(query) {
   if (sort === "price_desc") order.push(["ticket_cost", "DESC"]);
   if (sort === "time_asc") order.push(["departure_time", "ASC"]);
 
+  const allFlights = await Flight.findAll();
+
   // DB Query
   const flights = await Flight.findAndCountAll({
-    where: whereClause,
+    where: Object.assign(
+    {},
+    whereClause,
+
+    from
+      ? {
+          "$fromAirport.city$": {
+            [Op.iLike]: "%" + from + "%",
+          },
+        }
+      : {},
+
+    to
+      ? {
+          "$toAirport.city$": {
+            [Op.iLike]: "%" + to + "%",
+          },
+        }
+      : {}
+  ),
 
     include: [
-      {
-        model: Airline,
-        as: "airline",
-        attributes: ["id", "name", "code"],
-      },
-      {
-        model: Airplane,
-        as: "airplane",
-        attributes: ["id", "model", "capacity"],
-      },
-      {
-        model: Airport,
-        as: "fromAirport",
-        attributes: ["id", "name", "iata_code", "city"],
-        where: from ? { iata_code: from } : undefined,
-        required: !!from,
-      },
-      {
-        model: Airport,
-        as: "toAirport",
-        attributes: ["id", "name", "iata_code", "city"],
-        where: to ? { iata_code: to } : undefined,
-        required: !!to,
-      },
-    ],
+  {
+    model: Airline,
+    as: "airline",
+    attributes: ["id", "name", "code"],
+  },
+  {
+    model: Airplane,
+    as: "airplane",
+    attributes: ["id", "model", "capacity"],
+  },
+  {
+    model: Airport,
+    as: "fromAirport",
+    required: true,
+    attributes: ["id", "name", "city", "iata_code"],
+  },
+  {
+    model: Airport,
+    as: "toAirport",
+    required: true,
+    attributes: ["id", "name", "city", "iata_code"],
+  },
+],
 
     order,
     limit: Number(limit),
     offset: Number(offset),
   });
+  console.log("FROM:", from);
+  console.log("TO:", to);
+  console.log("Flights after query:", flights.rows.length);
 
   return {
     total: flights.count,
+    flights: flights.rows,
     page: Number(page),
     totalPages: Math.ceil(flights.count / limit),
     data: flights.rows,

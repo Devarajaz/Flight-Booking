@@ -2,7 +2,7 @@ const { searchFlightsService } = require("../services/flight-services");
 
 async function searchFlights(req, res) {
   try {
-    const result = await searchFlightsService(req.query);
+    const result = await searchFlightsService(req.body);
 
     return res.status(200).json({
       success: true,
