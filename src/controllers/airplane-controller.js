@@ -1,5 +1,5 @@
 const catchAsync = require("../utils/catch-async");
-const AirplaneServices = require("../services/airplane-services");
+const AirplaneServices = require("../services/airplane-service");
 
 const getAllAirplanes = catchAsync(async (req, res) => {
     const airplanes = await AirplaneServices.getAllAirplanes();

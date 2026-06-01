@@ -21,7 +21,7 @@ app.use(helmet());
 app.use("/api/auth", authRouter);
 app.use("/api/airplanes", airplaneRoutes);
 app.use("/api/flights", flightRoutes);
-app.use("/api", bookingRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 // -------- 404 ROUTE --------
 app.use((req, res, next) => {

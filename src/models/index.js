@@ -40,6 +40,7 @@ db.Airplane = require("./airplane")(sequelize, DataTypes);
 db.Airport = require("./airport")(sequelize, DataTypes);
 db.Flight = require("./flights")(sequelize, DataTypes);
 db.Booking = require("./booking")(sequelize, DataTypes);
+db.Payment = require("./payment")(sequelize, DataTypes);
 
 // ✅ CALL ASSOCIATIONS HERE (VERY IMPORTANT)
 Object.keys(db).forEach((modelName) => {

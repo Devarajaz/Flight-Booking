@@ -1,4 +1,4 @@
-const { searchFlightsService } = require("../services/flight-services");
+const { searchFlightsService } = require("../services/flight-service");
 
 async function searchFlights(req, res) {
   try {

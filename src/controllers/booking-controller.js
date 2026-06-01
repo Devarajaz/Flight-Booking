@@ -1,19 +1,49 @@
-const { createBookingService } = require("../services/booking-services");
+const BookingService = require("../services/booking-service");
 
-async function createBooking(req, res) {
-  try {
-    const booking = await createBookingService(req.body);
+const bookingService = new BookingService();
 
-    return res.status(201).json({
-      success: true,
-      booking,
-    });
-  } catch (error) {
-    return res.status(400).json({
-      success: false,
-      message: error.message,
-    });
+class BookingController {
+
+  async create(req, res) {
+
+    try {
+
+      const response =
+        await bookingService.createBooking({
+
+          userId: req.body.userId,
+
+          flightId: req.body.flightId,
+
+          seats: req.body.seats
+        });
+
+      return res.status(201).json({
+
+        success: true,
+
+        message: "Booking created successfully",
+
+        data: response,
+
+        error: {}
+
+      });
+
+    } catch (error) {
+
+      return res.status(500).json({
+
+        success: false,
+
+        message: "Unable to create booking",
+
+        data: {},
+
+        error: error.message
+      });
+    }
   }
 }
 
-module.exports = { createBooking };
+module.exports = BookingController;
